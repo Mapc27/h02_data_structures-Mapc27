@@ -53,7 +53,9 @@ void LinkedList::Insert(int index, Element e) {
           }
           node->next = curr->next;
           curr->next = node;
+          delete curr;
       }
+      delete node;
   }
 }
 
@@ -64,6 +66,7 @@ void LinkedList::Set(int index, Element e) {
   Node *node;
   node = find_node(index);
   node->data = e;
+  delete node;
 }
 
 Element LinkedList::Remove(int index) {
@@ -83,6 +86,7 @@ Element LinkedList::Remove(int index) {
       tail_ = node;
       size_ -= 1;
       return result;
+      delete node;
   }
   // Tip 2: используйте функцию find_node(index)
   Node *node = find_node(index - 1);
@@ -91,6 +95,8 @@ Element LinkedList::Remove(int index) {
   *remove_node = *remove_node->next;
   node->next = remove_node;
   size_ -= 1;
+  delete node;
+  delete remove_node;
   // напишите свой код здесь ...
   return result;
 }
@@ -106,6 +112,8 @@ void LinkedList::Clear() {
           curr = time;
           time = curr->next;
       }
+      delete curr;
+      delete time;
   }
   head_ = nullptr;
   tail_ = nullptr;
@@ -116,7 +124,9 @@ Element LinkedList::Get(int index) const {
   internal::check_out_of_range(index, 0, size_);
   // напишите свой код здесь ...
   Node *node = find_node(index);
-  return node->data;
+  Element result = node->data;
+  delete node;
+  return result;
 }
 
 int LinkedList::IndexOf(Element e) const {
@@ -127,6 +137,7 @@ int LinkedList::IndexOf(Element e) const {
         }
         curr = curr->next;
     }
+    delete curr;
     return kNotFoundElementIndex;
 }
 
