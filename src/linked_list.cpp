@@ -46,11 +46,7 @@ void LinkedList::Insert(int index, Element e) {
           head_ = node;
       }
       else{
-          Node *curr;
-          curr = head_;
-          for(int i = 0; i < index - 1 ; i++){
-              curr = curr->next;
-          }
+          Node *curr = find_node(index - 1);
           node->next = curr->next;
           curr->next = node;
       }
@@ -82,6 +78,7 @@ Element LinkedList::Remove(int index) {
       Element result = tail_->data;
       tail_ = node;
       size_ -= 1;
+      //      delete node;
       return result;
   }
   // Tip 2: используйте функцию find_node(index)
@@ -106,6 +103,8 @@ void LinkedList::Clear() {
           curr = time;
           time = curr->next;
       }
+      delete curr;
+      delete time;
   }
   head_ = nullptr;
   tail_ = nullptr;
@@ -116,7 +115,9 @@ Element LinkedList::Get(int index) const {
   internal::check_out_of_range(index, 0, size_);
   // напишите свой код здесь ...
   Node *node = find_node(index);
-  return node->data;
+  Element result = node->data;
+//  delete node;
+  return result;
 }
 
 int LinkedList::IndexOf(Element e) const {
@@ -127,6 +128,7 @@ int LinkedList::IndexOf(Element e) const {
         }
         curr = curr->next;
     }
+    delete curr;
     return kNotFoundElementIndex;
 }
 
